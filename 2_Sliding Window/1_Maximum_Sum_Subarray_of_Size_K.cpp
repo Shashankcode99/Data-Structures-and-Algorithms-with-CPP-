@@ -13,23 +13,23 @@ class Solution {
 	public:
 	int maxSubarraySum(vector<int>& arr, int k) {
 		int low = 0;
-		int high = low + k - 1;
+		int high = k - 1;
 		int max = 0;
 		
 		for (int i = low; i <= high; i++) {
 			max += arr[i];
 		}
 		
-		int prevSum = max;
+		int currentWindowSum = max;
 		
-		while (high + 1 < arr.size()) {
-			int newSum = prevSum - arr[low] + arr[high + 1];
-			if (newSum > max) {
-				max = newSum;
-			}
-			prevSum = newSum;
+		while (high < arr.size() - 1) {
 			low++;
 			high++;
+			int newWindowSum = currentWindowSum - arr[low - 1] + arr[high];
+			if (newWindowSum > max) {
+				max = newWindowSum;
+			}
+			currentWindowSum = newWindowSum;
 		}
 		return max;
 	}
